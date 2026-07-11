@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Color tokens — from design brief */
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-accent: #14b8a6;
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+
+  /* Derived tones (used for borders, hovers, subtle fills) */
+  --color-surface-hover: #263449;
+  --color-border: #2d3b52;
+  --color-accent-hover: #0d9488;
+  --color-accent-soft: rgb(20 184 166 / 0.1);
+
+  /* Typography */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Light theme overrides — toggled via .light class on <html> */
+  :root.light {
+    --color-background: #f8fafc;
+    --color-surface: #ffffff;
+    --color-surface-hover: #f1f5f9;
+    --color-border: #e2e8f0;
+    --color-text: #0f172a;
+    --color-text-secondary: #475569;
+    --color-accent: #0d9488;
+    --color-accent-hover: #0f766e;
+    --color-accent-soft: rgb(13 148 136 / 0.08);
+  }
+
+  body {
+    @apply bg-background text-text font-body antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-text;
+  }
+
+  /* Respect reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Visible keyboard focus */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+@layer utilities {
+  .container-custom {
+    @apply max-w-6xl mx-auto px-6 md:px-8;
+  }
+}
