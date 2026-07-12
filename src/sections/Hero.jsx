@@ -27,12 +27,36 @@ export default function Hero() {
     >
       <CodeBackground />
 
-      <div className="container-custom relative z-10 grid md:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+      <div className="container-custom relative z-10 grid md:grid-cols-[1.2fr_0.8fr] gap-8 md:gap-12 items-center">
+        {/* Photo column — shown first on mobile, second on desktop */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          className="relative flex justify-center order-1 md:order-2"
+        >
+          <motion.div
+            animate={{ y: [0, -14, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="relative"
+          >
+            <div className="absolute -inset-4 rounded-full bg-accent/20 blur-2xl" />
+            <div className="relative w-44 h-44 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-full p-1.5 bg-gradient-to-br from-accent/60 via-accent/10 to-transparent">
+              <img
+                src={profileImg}
+                alt={siteConfig.name}
+                className="w-full h-full object-cover rounded-full border-4 border-background"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+
         {/* Text column */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+          className="order-2 md:order-1 text-center md:text-left"
         >
           <motion.span
             variants={itemVariants}
@@ -60,7 +84,7 @@ export default function Hero() {
 
           <motion.p
             variants={itemVariants}
-            className="mt-6 max-w-xl text-text-secondary text-base sm:text-lg leading-relaxed"
+            className="mt-6 max-w-xl mx-auto md:mx-0 text-text-secondary text-base sm:text-lg leading-relaxed"
           >
             I build intelligent web applications and solve real-world
             problems using AI, Python, and modern web technologies.
@@ -68,7 +92,7 @@ export default function Hero() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-8 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-4"
           >
             <Button as="a" href={siteConfig.resumeUrl} variant="primary" icon={FiDownload}>
               Download Resume
@@ -83,7 +107,7 @@ export default function Hero() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-10 flex items-center gap-5"
+            className="mt-10 flex items-center justify-center md:justify-start gap-5"
           >
             <a
               href={siteConfig.social.github}
@@ -103,29 +127,6 @@ export default function Hero() {
             >
               <FiLinkedin size={20} />
             </a>
-          </motion.div>
-        </motion.div>
-
-        {/* Photo column */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
-          className="relative hidden md:flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative"
-          >
-            <div className="absolute -inset-4 rounded-full bg-accent/20 blur-2xl" />
-            <div className="relative w-72 h-72 lg:w-80 lg:h-80 rounded-full p-1.5 bg-gradient-to-br from-accent/60 via-accent/10 to-transparent">
-              <img
-                src={profileImg}
-                alt={siteConfig.name}
-                className="w-full h-full object-cover rounded-full border-4 border-background"
-              />
-            </div>
           </motion.div>
         </motion.div>
       </div>
