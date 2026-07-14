@@ -83,4 +83,10 @@
   .container-custom {
     @apply max-w-6xl mx-auto px-6 md:px-8;
   }
+
+  /* Offsets scroll targets so section headings aren't hidden behind the
+     fixed navbar when jumping via nav links. */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
 }

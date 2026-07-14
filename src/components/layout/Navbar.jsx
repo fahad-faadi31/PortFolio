@@ -31,16 +31,19 @@ export default function Navbar() {
   }, [menuOpen]);
 
   // Android Chrome can cancel a pending hash-navigation if the link's
-  // container unmounts in the same tick as the click (which happens here,
-  // since the mobile menu closes on tap). Scrolling manually sidesteps
-  // that race condition entirely, on every platform.
+  // container unmounts in the same tick as the click, AND the mobile
+  // menu locks body scroll (overflow: hidden) while open — so scrolling
+  // has to happen *after* that lock is released, not before.
   const handleNavClick = (e, href) => {
     e.preventDefault();
+    setMenuOpen(false);
+    document.body.style.overflow = "";
     const target = document.querySelector(href);
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
     }
-    setMenuOpen(false);
   };
 
   return (
