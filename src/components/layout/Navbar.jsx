@@ -30,6 +30,19 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  // Android Chrome can cancel a pending hash-navigation if the link's
+  // container unmounts in the same tick as the click (which happens here,
+  // since the mobile menu closes on tap). Scrolling manually sidesteps
+  // that race condition entirely, on every platform.
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setMenuOpen(false);
+  };
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
@@ -44,6 +57,7 @@ export default function Navbar() {
       <nav className="container-custom flex items-center justify-between h-18 py-4">
         <a
           href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
           className="font-display font-semibold text-lg text-text hover:text-accent transition-colors"
         >
           {siteConfig.initials}
@@ -56,6 +70,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="text-sm text-text-secondary hover:text-text transition-colors"
               >
                 {link.label}
@@ -65,7 +80,13 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden md:block">
-          <Button as="a" href="#contact" variant="primary" className="!px-5 !py-2.5 text-sm">
+          <Button
+            as="a"
+            href="#contact"
+            onClick={(e) => handleNavClick(e, "#contact")}
+            variant="primary"
+            className="!px-5 !py-2.5 text-sm"
+          >
             Hire Me
           </Button>
         </div>
@@ -100,7 +121,7 @@ export default function Navbar() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="block py-3 text-text-secondary hover:text-text transition-colors"
                   >
                     {link.label}
@@ -112,7 +133,7 @@ export default function Navbar() {
                   as="a"
                   href="#contact"
                   variant="primary"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, "#contact")}
                   className="w-full"
                 >
                   Hire Me
